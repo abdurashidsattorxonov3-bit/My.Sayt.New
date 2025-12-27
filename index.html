@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Al-Jabr Super Platform 🚀</title>
+    <style>
+        :root {
+            --bg: #0f172a;
+            --card: #1e293b;
+            --primary: #3b82f6;
+            --yt: #ef4444;
+            --ai: #2563eb;
+            --game: #10b981;
+            --set: #64748b;
+        }
+
+        body {
+            margin: 0; padding: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background: var(--bg); color: white;
+            overflow: hidden; height: 100vh;
+        }
+
+        /* 🏠 ASOSIY MENYU */
+        #main-menu {
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            height: 100vh; gap: 40px;
+        }
+
+        .grid {
+            display: grid; grid-template-columns: 200px 200px;
+            grid-template-rows: 200px 200px; gap: 20px;
+        }
+
+        .card {
+            background: var(--card); border-radius: 25px;
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            cursor: pointer; transition: 0.3s;
+            border: 2px solid transparent; font-weight: bold;
+        }
+        .card:hover { transform: scale(1.05); border-color: white; }
+        .card span { font-size: 50px; margin-bottom: 10px; }
+
+        .yt-c { border-color: var(--yt); }
+        .ai-c { border-color: var(--ai); }
+        .gm-c { border-color: var(--game); }
+        .st-c { border-color: var(--set); }
+
+        /* 📄 SAHIFALAR */
+        .page { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 100; overflow-y: auto; }
+        .header { background: var(--card); padding: 15px; display: flex; align-items: center; gap: 15px; border-bottom: 1px solid #334155; position: sticky; top: 0; z-index: 101; }
+        .back-btn { background: #ef4444; color: white; border: none; padding: 8px 15px; border-radius: 10px; cursor: pointer; font-weight: bold; }
+
+        /* 📺 YOUTUBE */
+        #yt-results {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px; padding: 20px;
+        }
+        .v-card { background: #1e293b; border-radius: 12px; overflow: hidden; cursor: pointer; border: 1px solid #334155; }
+        .v-card img { width: 100%; height: 160px; object-fit: cover; }
+        .v-info { padding: 12px; font-size: 14px; }
+
+        /* 🤖 AI */
+        #chat-box { height: 60vh; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 10px; background: #0b1120; }
+        .msg { padding: 12px; border-radius: 15px; max-width: 80%; line-height: 1.4; }
+        .u { align-self: flex-end; background: var(--ai); }
+        .b { align-self: flex-start; background: #334155; }
+
+        /* 🏁 SHASHKA */
+        #game-container { display: flex; justify-content: center; align-items: center; height: 80vh; gap: 30px; padding: 20px; }
+        canvas { border: 8px solid #3e2723; border-radius: 5px; cursor: pointer; }
+        .score-board { background: var(--card); padding: 20px; border-radius: 15px; width: 180px; text-align: center; border: 2px solid var(--game); }
+
+        /* ⚙️ SETTINGS */
+        .set-ui { max-width: 450px; margin: 50px auto; background: var(--card); padding: 30px; border-radius: 25px; text-align: center; }
+        .opt-btn { width: 100%; padding: 15px; margin: 10px 0; background: #334155; border: 1px solid var(--primary); color: white; border-radius: 12px; cursor: pointer; font-weight: bold; }
+        .creator-box { display: none; background: #0f172a; padding: 15px; border-radius: 10px; border: 1px dashed var(--primary); color: #3b82f6; }
+    </style>
+</head>
+<body>
+
+    <div id="main-menu">
+        <h1 id="m-title">✨ Xush Kelibsiz! ✨</h1>
+        <div class="grid">
+            <div class="card yt-c" onclick="openP('yt-p')"><span>📺</span><div id="t-yt">YouTube</div></div>
+            <div class="card ai-c" onclick="openP('ai-p')"><span>🤖</span><div id="t-ai">AI Yordamchi</div></div>
+            <div class="card gm-c" onclick="openP('gm-p')"><span>🏁</span><div id="t-gm">Shashka</div></div>
+            <div class="card st-c" onclick="openP('st-p')"><span>⚙️</span><div id="t-st">Sozlamalar</div></div>
+        </div>
+    </div>
+
+    <div id="yt-p" class="page">
+        <div class="header">
+            <button class="back-btn" onclick="goH()">🏠 Chiqish</button>
+            <input type="text" id="ytQ" style="flex:1; padding:10px; border-radius:20px;" placeholder="Video qidirish...">
+            <button onclick="searchYT()" style="padding:10px 20px; border-radius:20px; background:var(--yt); color:white; border:none; cursor:pointer;">Qidirish</button>
+        </div>
+        <div id="yt-results"></div>
+    </div>
+
+    <div id="ai-p" class="page">
+        <div class="header"><button class="back-btn" onclick="goH()">🏠</button> <b id="h-ai">AI Yordamchi</b></div>
+        <div id="chat-box">
+            <div class="msg b">❗Salom Xush kelibsiz✅<br>❗Salom Xush kelibsiz✅<br>Men Al-Jabr AI. Savol bering yoki rasm so'rang!</div>
+        </div>
+        <div style="padding:20px; display:flex; gap:10px; background:var(--card);">
+            <input type="text" id="aiI" style="flex:1; padding:15px; border-radius:30px;" placeholder="Savol bering...">
+            <button onclick="askAI()" style="border-radius:50%; width:55px; height:55px; background:var(--ai); border:none; color:white;">➤</button>
+        </div>
+    </div>
+
+    <div id="gm-p" class="page">
+        <div class="header"><button class="back-btn" onclick="goH()">🏠</button> <b id="h-gm">Shashka 👑</b></div>
+        <div id="game-container">
+            <canvas id="board" width="480" height="480"></canvas>
+            <div class="score-board">
+                <h3 id="turn-txt">Navbat: Oq ⚪</h3>
+                <hr>
+                <p>⚪ Oqlar: <b id="sW">0</b></p>
+                <p>⚫ Qoralar: <b id="sB">0</b></p>
+                <button onclick="resetGm()" style="width:100%; padding:10px; cursor:pointer; background:var(--game); border:none; border-radius:8px; color:white;">🔄 Reset</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="st-p" class="page">
+        <div class="header"><button class="back-btn" onclick="goH()">🏠</button> <b id="h-st">Sozlamalar</b></div>
+        <div class="set-ui">
+            <h2 id="s-title">⚙️ Sozlamalar</h2>
+            <button class="opt-btn" onclick="showL()">🌐 Tilni tanlash / Language</button>
+            <div id="l-box" style="display:none;">
+                <button class="opt-btn" onclick="setL('uz')">🇺🇿 O'zbekcha</button>
+                <button class="opt-btn" onclick="setL('en')">🇺🇸 English</button>
+                <button class="opt-btn" onclick="setL('ru')">🇷🇺 Русский</button>
+            </div>
+            <button class="opt-btn" onclick="toggleCreator()">👤 Yaratuvchi</button>
+            <div id="creator-box" class="creator-box"></div>
+        </div>
+    </div>
+
+<script>
+    let lang = 'uz';
+    const dic = {
+        uz: { m:"✨ Xush Kelibsiz! ✨", yt:"YouTube", ai:"AI Yordamchi", gm:"Shashka", st:"Sozlamalar", c:"👤 Ushbu sayt Al-Jabr o'quvchisi Sattorxonov Abdurashid tomonidan yaratilgan ✔", q:"Savol bering...", n:"Navbat: Oq ⚪", nb:"Navbat: Qora ⚫"},
+        en: { m:"✨ Welcome! ✨", yt:"YouTube", ai:"AI Assistant", gm:"Checkers", st:"Settings", c:"👤 This site was created by Al-Jabr student Sattorxonov Abdurashid ✔", q:"Ask a question...", n:"Turn: White ⚪", nb:"Turn: Black ⚫"},
+        ru: { m:"✨ Добро пожаловать! ✨", yt:"YouTube", ai:"ИИ Помощник", gm:"Шашки", st:"Настройки", c:"👤 Этот сайт создан учеником Al-Jabr Сатторхоновым Абдурашидом ✔", q:"Задайте вопрос...", n:"Ход: Белые ⚪", nb:"Ход: Черные ⚫"}
+    };
+
+    function openP(id) { document.getElementById('main-menu').style.display='none'; document.getElementById(id).style.display='block'; if(id==='gm-p') initGm(); if(id==='yt-p') searchYT(); }
+    function goH() { document.querySelectorAll('.page').forEach(p=>p.style.display='none'); document.getElementById('main-menu').style.display='flex'; }
+
+    function showL() { const b=document.getElementById('l-box'); b.style.display=b.style.display==='none'?'block':'none'; }
+    function toggleCreator() { const b=document.getElementById('creator-box'); b.style.display=b.style.display==='none'?'block':'none'; }
+    function setL(l) {
+        lang = l; const d = dic[l];
+        document.getElementById('m-title').innerText = d.m;
+        document.getElementById('t-yt').innerText = d.yt; document.getElementById('t-ai').innerText = d.ai;
+        document.getElementById('t-gm').innerText = d.gm; document.getElementById('t-st').innerText = d.st;
+        document.getElementById('h-ai').innerText = d.ai; document.getElementById('h-gm').innerText = d.gm;
+        document.getElementById('h-st').innerText = d.st; document.getElementById('s-title').innerText = d.st;
+        document.getElementById('aiI').placeholder = d.q; document.getElementById('creator-box').innerHTML = d.c;
+        document.getElementById('turn-txt').innerText = (turn==='w'?d.n:d.nb);
+        showL();
+    }
+
+    const YT_KEY = 'AIzaSyBm6sLLSnvWY2BPulagpEGcb01DQ_yc_yk'; 
+    async function searchYT() {
+        const query = document.getElementById('ytQ').value || 'Uzbekistan';
+        try {
+            const res = await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=12&q=${query}&type=video&key=${YT_KEY}`);
+            const data = await res.json();
+            const cont = document.getElementById('yt-results');
+            cont.innerHTML = '';
+            data.items.forEach(item => {
+                cont.innerHTML += `<div class="v-card" onclick="window.open('https://www.youtube.com/watch?v=${item.id.videoId}')">
+                    <img src="${item.snippet.thumbnails.medium.url}"><div class="v-info"><b>${item.snippet.title}</b></div></div>`;
+            });
+        } catch (e) { document.getElementById('yt-results').innerHTML = '<p>Xatolik yuz berdi. ❌</p>'; }
+    }
+
+    // AI QISMI - KALIT OLIB TASHLANDI
+    async function askAI() {
+        const i = document.getElementById('aiI'); const box = document.getElementById('chat-box');
+        if(!i.value) return;
+        box.innerHTML += `<div class="msg u">${i.value}</div>`;
+        try {
+            const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+                method:"POST", 
+                headers:{
+                    "Authorization":"Bearer PLACEHOLDER_KEY", 
+                    "Content-Type":"application/json"
+                },
+                body:JSON.stringify({model:"llama-3.3-70b-versatile", messages:[{role:"user",content:i.value}]})
+            });
+            const data = await res.json();
+            box.innerHTML += `<div class="msg b">${data.choices[0].message.content}</div>`;
+        } catch { box.innerHTML += `<div class="msg b">❌ Xatolik.</div>`; }
+        i.value=''; box.scrollTop = box.scrollHeight;
+    }
+
+    const cvs = document.getElementById('board'); const ctx = cvs.getContext('2d');
+    let board = []; let sel = null; let turn = 'w'; let scW = 0, scB = 0;
+
+    function initGm() {
+        board = []; scW = 0; scB = 0; turn = 'w';
+        document.getElementById('sW').innerText = '0'; document.getElementById('sB').innerText = '0';
+        for(let r=0; r<8; r++) { board[r]=[]; for(let c=0; c<8; c++) {
+            if((r+c)%2!==0) {
+                if(r<3) board[r][c]={color:'b', king:false};
+                else if(r>4) board[r][c]={color:'w', king:false};
+                else board[r][c]=null;
+            } else board[r][c]=null;
+        }} draw();
+    }
+
+    function draw() {
+        for(let r=0; r<8; r++) { for(let c=0; c<8; c++) {
+            ctx.fillStyle = (r+c)%2===0?'#d7ccc8':'#4e342e'; ctx.fillRect(c*60,r*60,60,60);
+            if(board[r][c]) {
+                ctx.beginPath(); ctx.arc(c*60+30,r*60+30,25,0,Math.PI*2);
+                ctx.fillStyle = board[r][c].color==='w'?'#fff':'#000'; ctx.fill();
+                if(board[r][c].king) { ctx.fillStyle = "gold"; ctx.font = "30px Arial"; ctx.textAlign="center"; ctx.fillText("👑", c*60+30, r*60+40); }
+                if(sel && sel.r===r && sel.c===c) { ctx.strokeStyle='yellow'; ctx.lineWidth=4; ctx.stroke(); }
+            }
+        }}
+    }
+
+    cvs.onclick = (e) => {
+        const x = Math.floor(e.offsetX/60), y = Math.floor(e.offsetY/60);
+        if(sel) {
+            const piece = board[sel.r][sel.c];
+            const rd = Math.abs(y - sel.r), cd = Math.abs(x - sel.c);
+            if(!board[y][x] && (y+x)%2!==0 && rd === cd) {
+                let canMove = false;
+                if(!piece.king) {
+                    if(rd === 1) canMove = (piece.color === 'w' ? y < sel.r : y > sel.r);
+                    if(rd === 2) {
+                        let mx = (x+sel.c)/2, my = (y+sel.r)/2;
+                        if(board[my][mx] && board[my][mx].color !== piece.color) {
+                            board[my][mx] = null;
+                            if(piece.color === 'w') scW++; else scB++;
+                            document.getElementById('sW').innerText=scW; document.getElementById('sB').innerText=scB;
+                            canMove = true;
+                        }
+                    }
+                } else {
+                    let stepR = (y - sel.r) / rd, stepC = (x - sel.c) / cd;
+                    let enemies = 0, ex, ey;
+                    for(let i=1; i < rd; i++) {
+                        let cur = board[sel.r + i*stepR][sel.c + i*stepC];
+                        if(cur) { if(cur.color === piece.color) { enemies = 100; } else { enemies++; ex = sel.r+i*stepR; ey = sel.c+i*stepC; } }
+                    }
+                    if(enemies === 0) canMove = true;
+                    if(enemies === 1) { board[ex][ey] = null; if(piece.color === 'w') scW++; else scB++; canMove = true; }
+                }
+                if(canMove) {
+                    board[y][x] = piece; board[sel.r][sel.c] = null;
+                    if((piece.color==='w' && y===0) || (piece.color==='b' && y===7)) piece.king = true;
+                    turn = turn === 'w' ? 'b' : 'w';
+                    document.getElementById('turn-txt').innerText = turn==='w'?dic[lang].n:dic[lang].nb;
+                }
+            }
+            sel = null;
+        } else if(board[y][x] && board[y][x].color === turn) sel = {r:y, c:x};
+        draw();
+    }
+    function resetGm() { initGm(); }
+    setL('uz');
+</script>
+</body>
+</html>
