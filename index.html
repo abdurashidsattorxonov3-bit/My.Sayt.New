@@ -3,35 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Al-Jabr Platform</title>
+    <title>Al-Jabr Platform 🚀</title>
     <style>
         :root {
             --bg: #0f172a;
             --card: #1e293b;
+            --primary: #3b82f6;
+            --yt: #ef4444;
             --ai: #2563eb;
             --game: #10b981;
+            --set: #64748b;
         }
 
-        /* Sahifa yurganda yurmasligi (scroll bo'lmasligi) uchun */
+        /* Umumiy sozlamalar 🌍 */
         html, body {
             margin: 0; padding: 0;
-            width: 100%; height: 100vh;
+            width: 100%; height: 100%;
             background: var(--bg); color: white;
-            font-family: 'Segoe UI', sans-serif;
-            overflow: hidden; /* Skrollni o'chiradi */
-            display: flex; justify-content: center; align-items: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden; /* Skrollni cheklash 🚫 */
         }
 
-        /* 🏠 ASOSIY KONTEYNER - Hamma narsa markazda */
+        /* Markazlashtirish konteyneri 🎯 */
+        .wrapper {
+            display: flex; justify-content: center; align-items: center;
+            width: 100%; height: 100vh;
+        }
+
         .app-container {
-            width: 100%; max-width: 500px;
-            height: 100vh;
+            width: 100%; max-width: 600px;
+            height: 100%; max-height: 900px;
+            position: relative;
+            background: var(--bg);
+            display: flex; flex-direction: column;
+        }
+
+        /* 🏠 ASOSIY MENYU */
+        #main-menu {
             display: flex; flex-direction: column;
             justify-content: center; align-items: center;
-            position: relative;
+            height: 100%; width: 100%;
         }
 
-        #m-title { font-size: 1.8rem; margin-bottom: 25px; text-align: center; }
+        #m-title { font-size: clamp(1.5rem, 6vw, 2.2rem); margin-bottom: 30px; text-align: center; color: #f8fafc; }
 
         .grid {
             display: grid; grid-template-columns: repeat(2, 1fr);
@@ -39,148 +53,179 @@
         }
 
         .card {
-            background: var(--card); border-radius: 20px; aspect-ratio: 1/1;
+            background: var(--card); border-radius: 25px; aspect-ratio: 1/1;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
-            cursor: pointer; border: 2px solid transparent; transition: 0.3s;
+            cursor: pointer; border: 3px solid transparent; transition: 0.3s;
         }
-        .card span { font-size: 40px; margin-bottom: 8px; }
-        .card div { font-size: 14px; font-weight: bold; }
-        .card:active { transform: scale(0.95); background: #334155; }
+        .card:hover { transform: translateY(-5px); }
+        .card span { font-size: clamp(35px, 10vw, 55px); margin-bottom: 10px; }
+        .card div { font-size: 14px; font-weight: bold; text-transform: uppercase; }
 
-        /* 📄 SAHIFALAR - To'liq ekran markazida */
+        /* 📄 SAHIFALAR */
         .page {
             display: none; position: absolute; top: 0; left: 0;
             width: 100%; height: 100%; background: var(--bg); z-index: 100;
         }
 
         .header {
-            height: 60px; background: var(--card); width: 100%;
+            height: 65px; background: var(--card); width: 100%;
             display: flex; align-items: center; padding: 0 15px; box-sizing: border-box;
-            justify-content: space-between;
+            gap: 10px; border-bottom: 2px solid #334155;
         }
 
-        .back-btn { background: #ef4444; color: white; border: none; padding: 8px 12px; border-radius: 10px; font-weight: bold; }
+        .back-btn { background: #ef4444; color: white; border: none; padding: 10px; border-radius: 12px; cursor: pointer; font-weight: bold; }
 
-        /* 🤖 AI CHAT - Tuzatilgan struktura */
-        #chat-container {
-            height: calc(100% - 60px); display: flex; flex-direction: column;
+        /* 📺 YOUTUBE 🎥 */
+        #yt-results {
+            height: calc(100% - 65px); overflow-y: auto; padding: 15px;
+            display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
         }
+        .v-card { background: var(--card); border-radius: 15px; overflow: hidden; border: 1px solid #444; }
+        .v-card img { width: 100%; display: block; }
+        .v-info { padding: 8px; font-size: 11px; font-weight: bold; }
 
-        #chat-box {
-            flex: 1; overflow-y: auto; padding: 15px;
-            display: flex; flex-direction: column; gap: 10px;
-        }
+        /* 🤖 AI CHAT 💬 */
+        #chat-container { height: calc(100% - 65px); display: flex; flex-direction: column; }
+        #chat-box { flex: 1; overflow-y: auto; padding: 15px; display: flex; flex-direction: column; gap: 10px; background: #0b1120; }
+        .msg { padding: 12px 16px; border-radius: 18px; max-width: 85%; font-size: 14px; line-height: 1.5; }
+        .u { align-self: flex-end; background: var(--ai); color: white; border-bottom-right-radius: 2px; }
+        .b { align-self: flex-start; background: #334155; color: white; border-bottom-left-radius: 2px; }
 
-        .msg { padding: 10px 15px; border-radius: 15px; max-width: 80%; font-size: 14px; line-height: 1.4; }
-        .u { align-self: flex-end; background: var(--ai); }
-        .b { align-self: flex-start; background: #334155; }
+        .input-area { padding: 15px; background: var(--card); display: flex; gap: 10px; }
+        .input-area input { flex: 1; padding: 12px 20px; border-radius: 25px; border: none; outline: none; font-size: 14px; }
+        .send-btn { background: var(--ai); border: none; width: 45px; height: 45px; border-radius: 50%; color: white; cursor: pointer; }
 
-        .input-area {
-            padding: 15px; background: var(--card);
-            display: flex; gap: 10px; align-items: center;
-        }
+        /* 🏁 SHASHKA 🏆 */
+        #game-wrapper { height: calc(100% - 65px); display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 15px; padding: 10px; }
+        canvas { max-width: 90vw; max-height: 90vw; border: 6px solid #3e2723; border-radius: 10px; box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
+        .score-board { background: var(--card); padding: 15px; border-radius: 20px; width: 90%; max-width: 350px; border: 2px solid var(--game); }
+        .score-row { display: flex; justify-content: space-around; font-size: 1.2rem; font-weight: bold; margin: 10px 0; }
 
-        .input-area input {
-            flex: 1; padding: 12px; border-radius: 25px; border: none; outline: none;
-        }
-
-        .send-btn {
-            background: var(--ai); border: none; width: 45px; height: 45px;
-            border-radius: 50%; color: white; font-size: 20px;
-        }
-
-        /* 🏁 SHASHKA - Markazda qotgan */
-        #game-wrapper {
-            height: calc(100% - 60px);
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            gap: 20px;
-        }
-
-        canvas { max-width: 90vw; border: 4px solid #3e2723; border-radius: 5px; }
-        .score-board { background: var(--card); padding: 15px; border-radius: 15px; width: 80%; text-align: center; }
-
+        /* ⚙️ SOZLAMALAR 🛠️ */
+        .settings-content { padding: 20px; display: flex; flex-direction: column; gap: 15px; align-items: center; }
+        .opt-btn { width: 90%; padding: 15px; background: #334155; border: 2px solid var(--primary); color: white; border-radius: 15px; font-weight: bold; cursor: pointer; }
     </style>
 </head>
 <body>
 
+<div class="wrapper">
     <div class="app-container">
-        <div id="main-menu" style="display: flex; flex-direction: column; align-items: center; width: 100%;">
-            <h1 id="m-title">✨ Xush Kelibsiz! ✨</h1>
+        
+        <div id="main-menu">
+            <h1 id="m-title">✨ Al-Jabr Platform 🚀</h1>
             <div class="grid">
-                <div class="card" onclick="openP('yt-p')" style="border-color: #ef4444;"><span>📺</span><div>YouTube</div></div>
-                <div class="card" onclick="openP('ai-p')" style="border-color: #2563eb;"><span>🤖</span><div>AI Yordamchi</div></div>
-                <div class="card" onclick="openP('gm-p')" style="border-color: #10b981;"><span>🏁</span><div>Shashka</div></div>
-                <div class="card" onclick="openP('st-p')" style="border-color: #64748b;"><span>⚙️</span><div>Sozlamalar</div></div>
+                <div class="card" onclick="openP('yt-p')" style="border-color: var(--yt);"><span>📺</span><div>YouTube</div></div>
+                <div class="card" onclick="openP('ai-p')" style="border-color: var(--ai);"><span>🤖</span><div>AI Bot</div></div>
+                <div class="card" onclick="openP('gm-p')" style="border-color: var(--game);"><span>🏁</span><div>Shashka</div></div>
+                <div class="card" onclick="openP('st-p')" style="border-color: var(--set);"><span>⚙️</span><div>Sozlamalar</div></div>
             </div>
         </div>
 
+        <div id="yt-p" class="page">
+            <div class="header">
+                <button class="back-btn" onclick="goH()">🏠</button>
+                <input type="text" id="ytQ" style="flex:1; padding:10px; border-radius:10px; border:none;" placeholder="Video qidirish...🔍">
+                <button onclick="searchYT()" style="background:var(--yt); color:white; border:none; padding:10px; border-radius:10px;">🔍</button>
+            </div>
+            <div id="yt-results"></div>
+        </div>
+
         <div id="ai-p" class="page">
-            <div class="header"><button class="back-btn" onclick="goH()">🏠</button> <b>AI Yordamchi</b> <div></div></div>
+            <div class="header"><button class="back-btn" onclick="goH()">🏠</button> <b>🤖 AI Yordamchi</b></div>
             <div id="chat-container">
                 <div id="chat-box">
-                    <div class="msg b">Salom! Men Al-Jabr AI botiman. Savol bering!</div>
+                    <div class="msg b">Salom! Men Al-Jabr AI 🤖. Sizga qanday yordam bera olaman? ✨</div>
                 </div>
                 <div class="input-area">
-                    <input type="text" id="aiI" placeholder="Savol bering...">
+                    <input type="text" id="aiI" placeholder="Xabar yozing...✍️">
                     <button class="send-btn" onclick="askAI()">➤</button>
                 </div>
             </div>
         </div>
 
         <div id="gm-p" class="page">
-            <div class="header"><button class="back-btn" onclick="goH()">🏠</button> <b>Shashka 👑</b> <div></div></div>
+            <div class="header"><button class="back-btn" onclick="goH()">🏠</button> <b>🏁 Shashka Qiroli 👑</b></div>
             <div id="game-wrapper">
+                <div id="turn-txt" style="font-size: 1.2rem; font-weight: bold;">Navbat: Oq ⚪</div>
                 <canvas id="board" width="480" height="480"></canvas>
                 <div class="score-board">
-                    <div id="turn-txt">Navbat: Oq ⚪</div>
-                    <button onclick="initGm()" style="margin-top:10px; width:100%; padding:8px; background:var(--game); border:none; color:white; border-radius:8px;">🔄 Reset</button>
+                    <div class="score-row">
+                        <span>⚪ Oq: <span id="sW">0</span></span>
+                        <span>⚫ Qora: <span id="sB">0</span></span>
+                    </div>
+                    <button onclick="initGm()" style="width:100%; padding:10px; background:var(--game); border:none; color:white; border-radius:10px; font-weight:bold;">🔄 O'yinni yangilash</button>
                 </div>
             </div>
         </div>
+
+        <div id="st-p" class="page">
+            <div class="header"><button class="back-btn" onclick="goH()">🏠</button> <b>⚙️ Sozlamalar</b></div>
+            <div class="settings-content">
+                <button class="opt-btn">🇺🇿 Til: O'zbekcha</button>
+                <button class="opt-btn">🌙 Rejim: Tun</button>
+                <div style="margin-top:20px; text-align:center; color: var(--primary);">
+                    <p><b>Yaratuvchi: 👤</b></p>
+                    <p>Sattorxonov Abdurashid ✔️</p>
+                </div>
+            </div>
+        </div>
+
     </div>
+</div>
 
 <script>
+    // Navigatsiya 🧭
     function openP(id) { 
         document.getElementById('main-menu').style.display='none'; 
         document.getElementById(id).style.display='block'; 
-        if(id==='gm-p') initGm(); 
+        if(id==='gm-p') initGm();
+        if(id==='yt-p') searchYT();
     }
     function goH() { 
         document.querySelectorAll('.page').forEach(p=>p.style.display='none'); 
         document.getElementById('main-menu').style.display='flex'; 
     }
 
-    // AI QISMI - 2 ta salom muammosi hal etildi
+    // YouTube Funksiyasi 🎥
+    const YT_KEY = 'AIzaSyBm6sLLSnvWY2BPulagpEGcb01DQ_yc_yk'; 
+    async function searchYT() {
+        const q = document.getElementById('ytQ').value || 'Al-Jabr matematika';
+        const res = await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&q=${q}&type=video&key=${YT_KEY}`);
+        const data = await res.json();
+        const cont = document.getElementById('yt-results');
+        cont.innerHTML = '';
+        data.items.forEach(v => {
+            cont.innerHTML += `<div class="v-card" onclick="window.open('https://youtube.com/watch?v=${v.id.videoId}')">
+                <img src="${v.snippet.thumbnails.medium.url}"><div class="v-info">${v.snippet.title}</div></div>`;
+        });
+    }
+
+    // AI Funksiyasi 🤖
     async function askAI() {
-        const i = document.getElementById('aiI'); 
-        const box = document.getElementById('chat-box');
+        const i = document.getElementById('aiI'); const box = document.getElementById('chat-box');
         if(!i.value) return;
-        
-        let userMsg = i.value;
-        box.innerHTML += `<div class="msg u">${userMsg}</div>`;
-        i.value = '';
+        let txt = i.value; i.value = '';
+        box.innerHTML += `<div class="msg u">${txt} 👤</div>`;
         box.scrollTop = box.scrollHeight;
 
-        try {
-            const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-                method:"POST",
-                headers:{"Authorization":"Bearer PLACEHOLDER_KEY", "Content-Type":"application/json"},
-                body:JSON.stringify({model:"llama-3.3-70b-versatile", messages:[{role:"user",content:userMsg}]})
-            });
-            const data = await res.json();
-            box.innerHTML += `<div class="msg b">${data.choices[0].message.content}</div>`;
-        } catch { 
-            box.innerHTML += `<div class="msg b">Xatolik yuz berdi.</div>`; 
-        }
+        const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+            method:"POST",
+            headers:{"Authorization":"Bearer PLACEHOLDER_KEY", "Content-Type":"application/json"},
+            body:JSON.stringify({model:"llama-3.3-70b-versatile", messages:[{role:"user",content:txt}]})
+        });
+        const data = await res.json();
+        box.innerHTML += `<div class="msg b">🤖 ${data.choices[0].message.content}</div>`;
         box.scrollTop = box.scrollHeight;
     }
 
-    // SHASHKA QODS (SODDALASHTIRILGAN VA MARKAZLASHTIRILGAN)
+    // Shashka ballari va o'yin 🏁
     const cvs = document.getElementById('board'); const ctx = cvs.getContext('2d');
-    let board = []; let sel = null; let turn = 'w';
+    let board = []; let turn = 'w'; let scoreW = 0; let scoreB = 0; let sel = null;
 
     function initGm() {
-        board = []; turn = 'w';
+        board = []; turn = 'w'; scoreW = 0; scoreB = 0;
+        document.getElementById('sW').innerText = '0'; document.getElementById('sB').innerText = '0';
+        document.getElementById('turn-txt').innerText = "Navbat: Oq ⚪";
         for(let r=0; r<8; r++) { board[r]=[]; for(let c=0; c<8; c++) {
             if((r+c)%2!==0) {
                 if(r<3) board[r][c]={color:'b', king:false};
@@ -193,14 +238,12 @@
     function draw() {
         ctx.clearRect(0,0,480,480);
         for(let r=0; r<8; r++) { for(let c=0; c<8; c++) {
-            ctx.fillStyle = (r+c)%2===0?'#d7ccc8':'#4e342e';
-            ctx.fillRect(c*60,r*60,60,60);
+            ctx.fillStyle = (r+c)%2===0?'#d7ccc8':'#4e342e'; ctx.fillRect(c*60,r*60,60,60);
             if(board[r][c]) {
                 ctx.beginPath(); ctx.arc(c*60+30,r*60+30,25,0,Math.PI*2);
-                ctx.fillStyle = board[r][c].color==='w'?'#fff':'#000';
-                ctx.fill();
-                if(board[r][c].king) { ctx.fillStyle="gold"; ctx.font="25px Arial"; ctx.textAlign="center"; ctx.fillText("👑", c*60+30, r*60+40); }
-                if(sel && sel.r===r && sel.c===c) { ctx.strokeStyle='yellow'; ctx.lineWidth=3; ctx.stroke(); }
+                ctx.fillStyle = board[r][c].color==='w'?'#fff':'#000'; ctx.fill();
+                if(board[r][c].king) { ctx.fillStyle="gold"; ctx.font="30px Arial"; ctx.textAlign="center"; ctx.fillText("👑", c*60+30, r*60+40); }
+                if(sel && sel.r===r && sel.c===c) { ctx.strokeStyle='yellow'; ctx.lineWidth=4; ctx.stroke(); }
             }
         }}
     }
@@ -210,16 +253,25 @@
         const x = Math.floor((e.clientX - rect.left) * (480 / rect.width) / 60);
         const y = Math.floor((e.clientY - rect.top) * (480 / rect.height) / 60);
         if(sel) {
-            if(!board[y][x] && (y+x)%2!==0) {
-                board[y][x] = board[sel.r][sel.c];
-                board[sel.r][sel.c] = null;
+            if(!board[y][x] && (y+x)%2!==0 && Math.abs(y-sel.r)===1 && Math.abs(x-sel.c)===1) {
+                board[y][x] = board[sel.r][sel.c]; board[sel.r][sel.c] = null;
+                if(board[y][x].color==='w' && y===0) board[y][x].king=true;
+                if(board[y][x].color==='b' && y===7) board[y][x].king=true;
                 turn = turn==='w'?'b':'w';
                 document.getElementById('turn-txt').innerText = "Navbat: " + (turn==='w'?"Oq ⚪":"Qora ⚫");
+            } 
+            // Oddiy urish (ball hisoblash) 🏆
+            else if(!board[y][x] && Math.abs(y-sel.r)===2 && Math.abs(x-sel.c)===2) {
+                let mx = (x+sel.c)/2, my = (y+sel.r)/2;
+                if(board[my][mx] && board[my][mx].color !== board[sel.r][sel.c].color) {
+                    board[my][mx] = null; board[y][x] = board[sel.r][sel.c]; board[sel.r][sel.c] = null;
+                    if(turn==='w') { scoreW++; document.getElementById('sW').innerText = scoreW; }
+                    else { scoreB++; document.getElementById('sB').innerText = scoreB; }
+                    turn = turn==='w'?'b':'w';
+                }
             }
             sel = null;
-        } else if(board[y][x] && board[y][x].color === turn) {
-            sel = {r:y, c:x};
-        }
+        } else if(board[y][x] && board[y][x].color === turn) sel = {r:y, c:x};
         draw();
     }
 </script>
